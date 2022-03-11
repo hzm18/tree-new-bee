@@ -38,11 +38,11 @@ public class TcpServerVerticle extends AbstractVerticle {
         });
 
         final var recordParser = RecordParser.newDelimited("\r\n", h -> {
-          System.out.println(h.toString());
           try {
             var messageJson = new JsonObject(h);
             messageJson.put("id", id);
             messageJson.put("time", ZonedDateTime.now().format(dateFormatter));
+            messageJson.put("timestamp", System.currentTimeMillis());
 
             if (null != messageJson.getValue("nickname")
               && !messageJson.getValue("nickname").toString().isEmpty()) {
